@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study Stack</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Kalam:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script defer src="script.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <link rel="shortcut icon" href="svg/stacks.svg" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="title">
+      <span>Study</span>
+      <img src="svg/stacks.svg" alt="" />
+      <span>Stack</span>
+    </div>
+    <div id="card-wrapper" class="card-wrapper">
+      <div id="card-body" class="card-body">
+        <div class="card-front">
+          <span class="marker-selector" onclick="mark()"></span>
+          <p class="first-card" id="text-front">
+            Use the
+            <img src="svg/upload.svg" style="transform: translateY(0.3rem)" />
+            button to import your flashcard sets.
+          </p>
+        </div>
+        <div class="card-back">
+          <span class="marker-selector" onclick="mark()"></span>
+          <p class="first-card" id="text-back">You can also create your own!</p>
+        </div>
+      </div>
+      <div class="card-selectors">
+        <div id="middle-selectors">
+          <img src="svg/back.svg" onclick="moveCard(false)" />
+          <input type="file" id="file-input" accept=".json,.csv" multiple />
+          <img src="svg/add.svg" />
+          <img src="svg/forward.svg" onclick="moveCard(true)" />
+        </div>
+        <div id="right-selectors">
+          <img src="svg/upload.svg" onclick="fileInput.click()" />
+          <img src="svg/download.svg" />
+        </div>
+      </div>
+      <div class="progress">
+        <span id="progress">0/0</span>
+      </div>
+    </div>
+  </body>
+</html>

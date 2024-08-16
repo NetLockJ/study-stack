@@ -1,0 +1,164 @@
+body {
+  overflow-x: hidden;
+  transition: 0.5s ease-in;
+}
+
+.blur {
+  filter: blur(0.2rem);
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: fit-content;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  user-select: none;
+}
+
+.title * {
+  margin: 3px;
+}
+
+.title img {
+  height: 50px;
+  width: auto;
+}
+
+.title span {
+  font-size: 35px;
+  font-weight: 700;
+  font-family: 'Kalam';
+}
+
+.card-wrapper {
+  aspect-ratio: 5 / 3;
+  width: 75%;
+  max-width: 600px;
+  margin: auto;
+  padding-top: 10px;
+}
+
+.card-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: ease-in-out 0.4s;
+  transform-style: preserve-3d;
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  background-color: rgb(241, 237, 237);
+  box-shadow: 0px 0px 10px grey;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.card-front p,
+.card-back p {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  margin: 0;
+  padding: 5px;
+
+  font-family: "Gloria Hallelujah", monospace;
+}
+
+.card-back {
+  transform: rotateX(180deg);
+}
+
+.first-card {
+  color: rgba(6, 6, 6, 0.33);
+  font-weight: 700;
+}
+
+.card-selectors {
+  width: 100%;
+  padding-top: 5px;
+  height: 2.2rem;
+}
+
+#middle-selectors {
+  position: relative;
+  transform: translateX(calc(50% - 3.3rem));
+}
+
+#middle-selectors img {
+  background-color: #e0e0e0;
+  border-radius: 1.1rem;
+}
+
+#right-selectors {
+  display: flex;
+  position: relative;
+  padding-right: 2px;
+  /* I'm sorry for this */
+  transform: translateX(calc(100% - 4.4rem)) translateY(calc(-2.2rem - 5px));
+}
+
+img {
+  width: 2.2rem;
+  height: auto;
+}
+
+.progress {
+  text-align: center;
+  font-size: 1.5rem;
+  color: rgba(6, 6, 6, 0.33);
+  font-family: "Kalam", monopsace;
+}
+
+#file-input {
+  display: none;
+  opacity: 0;
+  -moz-opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.marker-selector {
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  border: solid #3179b0 3px;
+
+  transition: ease-in-out;
+}
+
+.card-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0% {rotate: 0deg; scale: 1.02;}
+  33% {rotate: -7deg; scale: 1.04;}
+  66% {rotate: 7deg; scale: 1.05;}
+  100% {rotate: 0deg; scale: 1;}
+}
+
+@keyframes correct {
+
+}
+
+@keyframes incorrect {
+  
+}
+
+.filled {
+  background-color: #3179b0;
+}
