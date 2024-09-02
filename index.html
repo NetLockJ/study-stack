@@ -27,9 +27,9 @@
     </div>
     <div id="card-wrapper" class="card-wrapper">
       <div id="card-body" class="card-body">
-        <div class="card-front">
+        <div id="front" class="card-front">
           <span class="marker-selector" onclick="mark()"></span>
-          <p class="first-card" id="text-front">
+          <p class="first-card text" id="text-front">
             Use the
             <img src="svg/upload.svg" style="transform: translateY(0.3rem)" />
             button to import your flashcard sets.
@@ -37,17 +37,18 @@
         </div>
         <div class="card-back">
           <span class="marker-selector" onclick="mark()"></span>
-          <p class="first-card" id="text-back">You can also create your own!</p>
+          <p class="first-card text" id="text-back">You can also create your own!</p>
         </div>
       </div>
       <div class="card-selectors">
         <div id="middle-selectors">
           <img src="svg/back.svg" onclick="moveCard(false)" />
-          <input type="file" id="file-input" accept=".json,.csv" multiple />
-          <img src="svg/add.svg" />
+          <input type="file" id="file-input" accept=".json,.csv"/>
+          <img src="svg/add.svg" onclick="addCard()"/>
           <img src="svg/forward.svg" onclick="moveCard(true)" />
         </div>
         <div id="right-selectors">
+          <img id="edit" src="svg/edit-off.svg" onclick="toggleEdit()">
           <img src="svg/upload.svg" onclick="fileInput.click()" />
           <img src="svg/download.svg" />
         </div>

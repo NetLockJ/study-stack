@@ -105,8 +105,15 @@ body {
   display: flex;
   position: relative;
   padding-right: 2px;
-  /* I'm sorry for this */
-  transform: translateX(calc(100% - 4.4rem)) translateY(calc(-2.2rem - 5px));
+  transform: translateX(calc(100% - 6.6rem)) translateY(calc(-2.2rem - 5px));
+  transition: 1.5s ease-in-out;
+
+}
+
+#right-selectors img:hover {
+  scale: 1.05;
+  transition: 0.2s ease-in-out;
+
 }
 
 img {

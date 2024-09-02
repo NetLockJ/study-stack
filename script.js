@@ -8,13 +8,34 @@ const setTitle = document.getElementById("set-title");
 var flashcards = null;
 var cardIndex = 0;
 
+if(window.localStorage.getItem("flashcard-sets") == null) {
+  window.localStorage.setItem("flashcard-sets", "");
+}
+
 // flip card when clicked
-document.getElementById("card-body").onclick = (event) => {
+document.getElementById("card-body").onpointerup = (event) => {
   // only flip if non-marker part of card is selected
-  if (!event.target.classList.contains("marker-selector")) {
+  if (
+    !event.target.classList.contains("marker-selector") &&
+    !event.target.classList.contains("text")
+  ) {
     flipCard();
   }
 };
+
+cardFront.addEventListener("pointerup", (event) => {
+  if (document.querySelectorAll("#front", "MathJax") && flashcards != null) {
+    if (!cardFront.innerHTML.match(/\\(.*\\)/)) {
+      cardFront.innerHTML = flashcards[cardIndex].front;
+    }
+  }
+});
+
+cardFront.addEventListener("input", (event) => {
+  if (flashcards != null) {
+    flashcards[cardIndex].front = cardFront.innerHTML;
+  }
+});
 
 /**
  * Marks the card
@@ -84,22 +105,24 @@ function moveCard(isForward) {
     flipCard();
   }
 
-  if (isForward) {
-    cardIndex = cardIndex < flashcards.length - 1 ? cardIndex + 1 : cardIndex;
-  } else {
-    cardIndex = cardIndex > 0 ? cardIndex - 1 : 0;
-  }
+  if (flashcards != null) {
+    if (isForward) {
+      cardIndex = cardIndex < flashcards.length - 1 ? cardIndex + 1 : cardIndex;
+    } else {
+      cardIndex = cardIndex > 0 ? cardIndex - 1 : 0;
+    }
 
-  updateProgress();
+    updateProgress();
 
-  cardFront.innerHTML = flashcards[cardIndex].front;
+    cardFront.innerHTML = flashcards[cardIndex].front;
 
-  MathJax.typeset();
+    MathJax.typeset();
 
-  for (i = 0; i < 2; i++) {
-    document
-      .getElementsByClassName("marker-selector")
-      [i].classList.remove("filled");
+    for (i = 0; i < 2; i++) {
+      document
+        .getElementsByClassName("marker-selector")
+        [i].classList.remove("filled");
+    }
   }
 }
 
@@ -134,4 +157,29 @@ function readSet(text) {
   cardFront.classList.remove("first-card");
 
   MathJax.typeset();
+}
+
+function addCard() {
+  if (flashcards != null) {
+
+  } else {
+    alert("You probably should upload a set before adding cards!");
+  }
+}
+
+function toggleEdit() {
+  edit = document.getElementById("edit");
+  edit.src = "svg/" + (edit.src.match("edit-on") ? "edit-off" : "edit-on") + ".svg";
+
+  if(cardFront.isContentEditable) {
+    cardFront.contentEditable = false;
+    cardBack.contentEditable = false;
+  } else {
+    cardFront.contentEditable = true;
+    cardBack.contentEditable = true;
+  }
+}
+
+function getAvailableSets() {
+  sets = window.localStorage.getItem("flashcard-sets");
 }
