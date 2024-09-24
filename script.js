@@ -30,9 +30,7 @@ document.getElementById("card-body").onpointerup = (event) => {
 cardFront.addEventListener("pointerup", (event) => {
   if (isEdit && cardFront.children.length > 0 && flashcards != null) {
     if (cardFront.contains(event.target)) {
-      if (cardFront.innerHTML != flashcards[cardIndex].front) {
-        cardFront.innerHTML = flashcards[cardIndex].front;
-      }
+      cardFront.innerHTML = flashcards[cardIndex].front;
     }
   }
 });
@@ -40,16 +38,20 @@ cardFront.addEventListener("pointerup", (event) => {
 cardBack.addEventListener("pointerup", (event) => {
   if (isEdit && cardBack.children.length > 0 && flashcards != null) {
     if (cardBack.contains(event.target)) {
-      if (cardBack.innerHTML != flashcards[cardIndex].back) {
-        cardBack.innerHTML = flashcards[cardIndex].back;
-      }
+      cardBack.innerHTML = flashcards[cardIndex].back;
     }
   }
 });
 
 cardFront.addEventListener("input", (event) => {
   if (flashcards != null) {
-    flashcards[cardIndex].front = cardFront.innerHTML;
+    flashcards[cardIndex].front = cardFront.innerHTML.replace("<br>", "");
+  }
+});
+
+cardBack.addEventListener("input", (event) => {
+  if (flashcards != null) {
+    flashcards[cardIndex].back = cardBack.innerHTML.replace("<br>", "");
   }
 });
 
@@ -220,7 +222,7 @@ function addCard() {
     flashcards.splice(
       cardIndex + 1,
       0,
-      new Card("Insert your text here", "Insert your text here")
+      new Card("(Front)", "(Back)")
     );
     moveCard(true);
   } else {
