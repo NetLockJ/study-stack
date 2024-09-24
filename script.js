@@ -5,28 +5,44 @@ const progressNumber = document.getElementById("progress");
 const fileInput = document.getElementById("file-input");
 const setTitle = document.getElementById("set-title");
 
+isEdit = false;
+
 var flashcards = null;
 var cardIndex = 0;
 
-if(window.localStorage.getItem("flashcard-sets") == null) {
+if (window.localStorage.getItem("flashcard-sets") == null) {
   window.localStorage.setItem("flashcard-sets", "");
 }
 
-// flip card when clicked
 document.getElementById("card-body").onpointerup = (event) => {
-  // only flip if non-marker part of card is selected
   if (
-    !event.target.classList.contains("marker-selector") &&
-    !event.target.classList.contains("text")
+    isEdit &&
+    (!!event.target.classList[0].match("mjx|MJX|MathJax|mjx-i") ||
+      event.target.classList.contains("text"))
   ) {
-    flipCard();
+  } else {
+    if (!event.target.classList.contains("marker-selector")) {
+      flipCard();
+    }
   }
 };
 
 cardFront.addEventListener("pointerup", (event) => {
-  if (document.querySelectorAll("#front", "MathJax") && flashcards != null) {
-    if (!cardFront.innerHTML.match(/\\(.*\\)/)) {
-      cardFront.innerHTML = flashcards[cardIndex].front;
+  if (isEdit && cardFront.children.length > 0 && flashcards != null) {
+    if (cardFront.contains(event.target)) {
+      if (cardFront.innerHTML != flashcards[cardIndex].front) {
+        cardFront.innerHTML = flashcards[cardIndex].front;
+      }
+    }
+  }
+});
+
+cardBack.addEventListener("pointerup", (event) => {
+  if (isEdit && cardBack.children.length > 0 && flashcards != null) {
+    if (cardBack.contains(event.target)) {
+      if (cardBack.innerHTML != flashcards[cardIndex].back) {
+        cardBack.innerHTML = flashcards[cardIndex].back;
+      }
     }
   }
 });
@@ -47,7 +63,12 @@ function mark() {
       [i].classList.toggle("filled");
   }
 
+  if (flashcards != null) {
+    flashcards[cardIndex].toggleMark();
+  }
+
   cardBody.classList.remove("card-shake");
+  cardBody.classList.remove("change");
   void cardBody.offsetWidth;
   cardBody.classList.add("card-shake");
 }
@@ -66,6 +87,15 @@ class Card {
   constructor(front, back) {
     this.front = front;
     this.back = back;
+    this.marked = false;
+  }
+
+  toggleMark() {
+    this.marked = !this.marked;
+  }
+
+  isMarked() {
+    return this.marked;
   }
 }
 
@@ -105,16 +135,29 @@ function moveCard(isForward) {
     flipCard();
   }
 
+  document.body.style.setProperty("--angle", Math.random() * 50 - 25 + "deg");
+
   if (flashcards != null) {
     if (isForward) {
-      cardIndex = cardIndex < flashcards.length - 1 ? cardIndex + 1 : cardIndex;
+      if (cardIndex < flashcards.length - 1) {
+        cardIndex++;
+        cardBody.classList.remove("change");
+        void cardBody.offsetWidth;
+        cardBody.classList.add("change");
+      }
     } else {
-      cardIndex = cardIndex > 0 ? cardIndex - 1 : 0;
+      if (cardIndex > 0) {
+        cardIndex--;
+        cardBody.classList.remove("change");
+        void cardBody.offsetWidth;
+        cardBody.classList.add("change");
+      }
     }
 
     updateProgress();
 
     cardFront.innerHTML = flashcards[cardIndex].front;
+    cardBack.innerHTML = flashcards[cardIndex].back;
 
     MathJax.typeset();
 
@@ -133,6 +176,7 @@ function moveCard(isForward) {
 function readSet(text) {
   flashcards = [];
   isCSV = fileInput.files[0].name.endsWith(".csv");
+  cardIndex = 0;
 
   if (isCSV) {
     data = Papa.parse(text).data;
@@ -157,11 +201,28 @@ function readSet(text) {
   cardFront.classList.remove("first-card");
 
   MathJax.typeset();
+
+  for (i = 0; i < 2; i++) {
+    document
+      .getElementsByClassName("marker-selector")
+      [i].classList.remove("filled");
+
+    if (flashcards[cardIndex].isMarked()) {
+      document
+        .getElementsByClassName("marker-selector")
+        [i].classList.add("filled");
+    }
+  }
 }
 
 function addCard() {
   if (flashcards != null) {
-
+    flashcards.splice(
+      cardIndex + 1,
+      0,
+      new Card("Insert your text here", "Insert your text here")
+    );
+    moveCard(true);
   } else {
     alert("You probably should upload a set before adding cards!");
   }
@@ -169,9 +230,12 @@ function addCard() {
 
 function toggleEdit() {
   edit = document.getElementById("edit");
-  edit.src = "svg/" + (edit.src.match("edit-on") ? "edit-off" : "edit-on") + ".svg";
+  edit.src =
+    "svg/" + (edit.src.match("edit-on") ? "edit-off" : "edit-on") + ".svg";
 
-  if(cardFront.isContentEditable) {
+  isEdit = !isEdit;
+
+  if (cardFront.isContentEditable) {
     cardFront.contentEditable = false;
     cardBack.contentEditable = false;
   } else {
@@ -182,4 +246,23 @@ function toggleEdit() {
 
 function getAvailableSets() {
   sets = window.localStorage.getItem("flashcard-sets");
+}
+
+function saveSet() {
+  var mjxCheck;
+
+  if (cardBody.style.transform === "") {
+    mjxCheck = cardFront;
+  } else {
+    mjxCheck = cardBack;
+  }
+
+  if (flashcards != null && mjxCheck.children.length == 0) {
+    flashcards[cardIndex].front = cardFront.innerHTML;
+    flashcards[cardIndex].back = cardBack.innerHTML;
+
+    MathJax.typeset();
+  } else {
+    alert("Only save Math text when it has not been rendered!");
+  }
 }

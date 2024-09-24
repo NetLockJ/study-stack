@@ -14,9 +14,9 @@
       rel="stylesheet"
     />
     <script defer src="script.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script defer src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <link rel="shortcut icon" href="svg/stacks.svg" type="image/x-icon" />
   </head>
   <body>
@@ -50,7 +50,7 @@
         <div id="right-selectors">
           <img id="edit" src="svg/edit-off.svg" onclick="toggleEdit()">
           <img src="svg/upload.svg" onclick="fileInput.click()" />
-          <img src="svg/download.svg" />
+          <img src="svg/save.svg" onclick="saveSet()"/>
         </div>
       </div>
       <div class="progress">

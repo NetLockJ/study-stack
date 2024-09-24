@@ -1,0 +1,14 @@
+[
+    {
+        "front": "\\(\\int_{-\\infty}^{\\infty}{\\frac{\\cos(x)}{x^2+1}}dx\\)",
+        "back": "$$\\frac{\\pi}{e}$$"
+    },
+    {
+        "front": "$$\\frac{d}{dx}[e^{-x^2}]$$",
+        "back": "$$-2xe^{-x^2}$$"
+    },
+    {
+        "front": "\\(x^2 + 5\\) when \\(x = 2\\)",
+        "back": "9"
+    }
+]

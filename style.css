@@ -1,6 +1,9 @@
 body {
   overflow-x: hidden;
+  overflow: hidden;
   transition: 0.5s ease-in;
+
+  --angle: 10deg;
 }
 
 .blur {
@@ -32,7 +35,7 @@ body {
 .title span {
   font-size: 35px;
   font-weight: 700;
-  font-family: 'Kalam';
+  font-family: "Kalam";
 }
 
 .card-wrapper {
@@ -42,6 +45,8 @@ body {
   margin: auto;
   padding-top: 10px;
 }
+
+
 
 .card-body {
   position: relative;
@@ -93,12 +98,20 @@ body {
 
 #middle-selectors {
   position: relative;
-  transform: translateX(calc(50% - 3.3rem));
+  transform: translateX(calc(50% - 3.4rem));
+  transition: 0.2s ease-in-out;
 }
 
 #middle-selectors img {
   background-color: #e0e0e0;
   border-radius: 1.1rem;
+  transition: 0.2s ease-in-out;
+}
+
+#middle-selectors img:hover {
+  background-color: #d3d3d3;
+  transition: 0.2s ease-in-out;
+  scale: 1.05;
 }
 
 #right-selectors {
@@ -107,13 +120,11 @@ body {
   padding-right: 2px;
   transform: translateX(calc(100% - 6.6rem)) translateY(calc(-2.2rem - 5px));
   transition: 1.5s ease-in-out;
-
 }
 
 #right-selectors img:hover {
   scale: 1.05;
   transition: 0.2s ease-in-out;
-
 }
 
 img {
@@ -153,17 +164,27 @@ img {
 
 @keyframes shake {
   0% {rotate: 0deg; scale: 1.02;}
-  33% {rotate: -7deg; scale: 1.04;}
+  33% {rotate: -7deg;scale: 1.04;}
   66% {rotate: 7deg; scale: 1.05;}
-  100% {rotate: 0deg; scale: 1;}
+  100% {rotate: 0deg;scale: 1;}
 }
 
-@keyframes correct {
+@keyframes change {
+  0% {
+    transform: perspective(500px) translateZ(300px);
+    opacity: 0%;
+    rotate: var(--angle);
+  }
 
+  100% {
+    opacity: 100%;
+    transform: perspective(500px) translateZ(0px);
+    rotate: 0deg;
+  }
 }
 
-@keyframes incorrect {
-  
+.change {
+  animation: change 0.35s ease-in-out;
 }
 
 .filled {
