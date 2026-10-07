@@ -10,6 +10,24 @@ isEdit = false;
 var flashcards = null;
 var cardIndex = 0;
 
+window.addEventListener("keyup", (event) => {
+  if(!isEdit) {
+    switch(event.code) {
+      case "Space":
+        flipCard();
+        break;
+      case "ArrowLeft":
+        moveCard(false);
+        break;
+      case "ArrowRight":
+        moveCard(true);
+        break;
+      default:
+        break;
+    }
+  }
+});
+
 if (window.localStorage.getItem("flashcard-sets") == null) {
   window.localStorage.setItem("flashcard-sets", "");
 }
